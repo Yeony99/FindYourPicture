@@ -27,6 +27,22 @@ function App() {
     fetchImages()
   }, [])
 
+  useEffect(()=> {
+    const event = window.addEventListener('scroll', ()=> {
+      // console.log(`innerHeight ${window.innerHeight}`);
+      // console.log(`scrollY ${window.scrollY}`);
+      // console.log(`body height ${document.body.scrollHeight}`); 
+      // if((window.innerHeight + window.scrollY) >= document.body.scrollHeight) { // 이것보다 크거나 같으면
+      //   // console.log('check!!'); // 스크롤이 끝까지 내려가면 check가 콘솔에 출력된다. -> 이것을 이용해 image fetch
+      // } 
+
+      if(!loading && (window.innerHeight + window.scrollY) >= document.body.scrollHeight) { //loading이 되고 있지 않을 때에만 실행
+        console.log('check');
+      } 
+
+    }); //스크롤 이벤트가 발생하면 
+    return () => window.removeEventListener('scroll', event);
+  }, [])
   const handleSubmit = (e) => {
     e.preventDefault();
     console.log("hello");
@@ -41,7 +57,7 @@ function App() {
       </form>
     </section>
     <section className='photos'>
-      <div className="photo-center">
+      <div className="photos-center">
         {photos.map((image, index) => {
           return <Photo key={image.id}{...image}/> //Photo.js 
         })}
